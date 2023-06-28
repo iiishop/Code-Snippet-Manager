@@ -5,27 +5,41 @@ namespace Code_Snippet_Manager
     public class Program
     {
         public static int MaxId;
+        public static List<Code_Snippet>? CodeSnippets;
+        public static int BaseId = -1;
         public class Save_Data
         {
             public int MaxId;
-            public List<Code_Snippet>? Code_Snippets;
+            public List<Code_Snippet>? CodeSnippets;
         }
         public static void Main(string[] args)
         {
             var _namespace = "Code_Snippet_Manager";
+            var saveData = Load_Data_From_Json<Save_Data>(new Save_Data(), "SaveData", "", true) ?? new Save_Data();
+            MaxId = saveData.MaxId;
+            CodeSnippets = saveData.CodeSnippets;
+            string InputTips = "请输入命令> ";
+            if (BaseId != -1 && CodeSnippets != null)
+            {
+                if (CodeSnippets[BaseId] == null)
+                {
+                    throw new Exception("BaseId is not valid");
+                }
+                InputTips = $"{CodeSnippets[BaseId].Title}> ";
+            }
             for (; ; )
             {
-                Console.Write("请输入命令> ");
+                Console.Write(InputTips);
                 var command = Console.ReadLine() ?? "";
-                //将command分割为命令名和参数
                 var commandName = command.Split(' ')[0];
                 var commandArgs = command.Split(' ').Length > 1 ? command.Split(' ')[1..] : null;
-                Functions.Get_And_Execute_Method(_namespace + "." + commandName, "Execute", commandArgs, true, true);
+                Functions.Get_And_Execute_Method($"{_namespace}.{commandName}", "Execute", commandArgs, true, true);
+                Save_Data_To_Json<Save_Data>(new Save_Data() { MaxId = MaxId, CodeSnippets = CodeSnippets }, "SaveData", "", true);
             }
         }
 
 
-        public T? Load_Data_From_Json<T>(T DataObject, string FileName, string FilePath, bool IsThisFolder)
+        public static T? Load_Data_From_Json<T>(T DataObject, string FileName, string FilePath, bool IsThisFolder)
         {
             try
             {
@@ -45,7 +59,7 @@ namespace Code_Snippet_Manager
         }
 
 
-        public void Save_Data_To_Json<T>(T DataObject, string FileName, string FilePath, bool IsThisFolder)
+        public static void Save_Data_To_Json<T>(T DataObject, string FileName, string FilePath, bool IsThisFolder)
         {
             try
             {

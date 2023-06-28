@@ -18,7 +18,7 @@ namespace Code_Snippet_Manager
 
         public Code_Snippet(string title, Language language, Mode mode, string code, string notes)
         {
-            Id = ++Program.MaxId;
+            Id = Program.MaxId++;
             Title = title;
             Language = language;
             Mode = mode;
@@ -26,6 +26,14 @@ namespace Code_Snippet_Manager
             Notes = notes;
             Created = DateTime.Now;
             Modified = DateTime.Now;
+        }
+        public override string ToString()
+        {
+            return $"Id: {Id}\nTitle: {Title}\nLanguage: {Language}\nMode: {Mode}\nCode: {Code}\nNotes: {Notes}\nCreated: {Created}\nModified: {Modified}\n\n";
+        }
+        public void Analyze()
+        {
+
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Code_Snippet_Manager
 
 
         /// <summary>
-        /// This method can get and execute a method in a class by only using the string of the class name and the method name
+        /// By utilizing only the string representation of the class and method names, this approach is capable of acquiring and executing a method within a class.
         /// </summary>
         /// <param name="className">the name of the class which the method we need in</param>
         /// <param name="methodName">the name of the method</param>
@@ -49,9 +49,7 @@ namespace Code_Snippet_Manager
                 if (string.IsNullOrEmpty(className))
                     throw new Exception("No class name");
 
-                var type = Type.GetType(className, false, ignoreClassCase);
-                if (type == null)
-                    throw new Exception($"Class: {className} not found");
+                var type = Type.GetType(className, false, ignoreClassCase) ?? throw new Exception($"Class: {className} not found");
 
                 var method = type.GetMethod(methodName);
                 if (method == null)
