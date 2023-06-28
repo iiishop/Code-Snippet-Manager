@@ -76,5 +76,46 @@ namespace Code_Snippet_Manager
                 System.Console.WriteLine(ex.Message);
             }
         }
+        public static string Get_Multi_Input()
+        {
+            //ConsoleKeyInfo cki;
+            //Console.TreatControlCAsInput = true;//防止Ctrl+C复制
+            Console.WriteLine("Press the CTRL+Enter key to quit: \n");
+            string result = string.Empty;
+            while (true)
+            {
+                var cki = Console.ReadKey();
+                if (cki.Key == ConsoleKey.Enter)
+                {
+                    result += System.Environment.NewLine;//如果输入回车，则加入换行标志
+                }
+                else if (cki.Key == ConsoleKey.Escape)
+                {
+                    break;
+                }
+                else
+                {
+                    result += cki.KeyChar;
+                }
+            }
+            return result;
+
+
+
+            /*string result = string.Empty;
+            do
+            {
+                cki = Console.ReadKey();
+                if (cki.Key == ConsoleKey.Enter)
+                {
+                    result += System.Environment.NewLine;//如果输入回车，则加入换行标志
+                    Console.SetCursorPosition(0, Console.CursorTop + 1);//光标下移一行
+                }
+                result += cki.KeyChar;
+            }
+            while (cki.Key != ConsoleKey.Enter || (cki.Modifiers & ConsoleModifiers.Control) == 0);//按Ctrl+Enter退出
+            Console.WriteLine("result");
+            return result;*/
+        }
     }
 }

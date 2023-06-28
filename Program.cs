@@ -5,12 +5,12 @@ namespace Code_Snippet_Manager
     public class Program
     {
         public static int MaxId;
-        public static List<Code_Snippet>? CodeSnippets;
+        public static List<Code_Snippet> CodeSnippets = new List<Code_Snippet>();
         public static int BaseId = -1;
         public class Save_Data
         {
             public int MaxId;
-            public List<Code_Snippet>? CodeSnippets;
+            public List<Code_Snippet> CodeSnippets = new List<Code_Snippet>();
         }
         public static void Main(string[] args)
         {
@@ -34,7 +34,7 @@ namespace Code_Snippet_Manager
                 var commandName = command.Split(' ')[0];
                 var commandArgs = command.Split(' ').Length > 1 ? command.Split(' ')[1..] : null;
                 Functions.Get_And_Execute_Method($"{_namespace}.{commandName}", "Execute", commandArgs, true, true);
-                Save_Data_To_Json<Save_Data>(new Save_Data() { MaxId = MaxId, CodeSnippets = CodeSnippets }, "SaveData", "", true);
+                Save_Data_To_Json<Save_Data>(new Save_Data() { MaxId = MaxId, CodeSnippets = CodeSnippets ?? new List<Code_Snippet>() }, "SaveData", "", true);
             }
         }
 

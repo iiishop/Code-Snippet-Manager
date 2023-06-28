@@ -121,9 +121,10 @@ namespace Code_Snippet_Manager
     {
         public override void Execute(object[]? args)
         {
+            int i = 0;
             foreach (var language in Enum.GetValues(typeof(Language)))
             {
-                Console.WriteLine(language);
+                Console.WriteLine($"{i++}.{language}");
             }
         }
 
@@ -135,6 +136,89 @@ namespace Code_Snippet_Manager
         public override void Describe(object[]? args)
         {
             Console.WriteLine("ShowAllSupportLanguage\nYou can use this command to show all support languages");
+        }
+    }
+
+
+    public class ShowAllModes : Command
+    {
+        public override void Execute(object[]? args)
+        {
+            int i = 0;
+            foreach (var mode in Enum.GetValues(typeof(Mode)))
+            {
+                Console.WriteLine($"{i++}.{mode}");
+            }
+        }
+
+        public override void Undo(object[]? args)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Describe(object[]? args)
+        {
+            Console.WriteLine("ShowAllModes\nYou can use this command to show all modes");
+        }
+    }
+
+
+    public class AddSnippet : Command
+    {
+        public override void Execute(object[]? args)
+        {
+            if (args == null || args.Length == 0)
+            {
+                Console.WriteLine("Please enter a title");
+                return;
+            }
+
+            var title = args[0].ToString() ?? throw new Exception("No title");
+            var language = Language.CSharp;
+            var mode = Mode.Other;
+            var code = "";
+            var notes = "";
+
+            new ShowAllSupportLanguage().Execute(null);
+        ChooseLanguage:
+            Console.WriteLine("Please enter a language index");
+            int languageInput = int.TryParse(Console.ReadLine(), out languageInput) ? languageInput : 0;
+            if (languageInput < 0 || languageInput >= Enum.GetValues(typeof(Language)).Length)
+            {
+                Console.WriteLine("Invalid language index");
+                goto ChooseLanguage;
+            }
+            language = (Language)languageInput;
+
+            new ShowAllModes().Execute(null);
+        ChooseMode:
+            Console.WriteLine("Please enter a mode index");
+            int modeInput = int.TryParse(Console.ReadLine(), out modeInput) ? modeInput : 0;
+            if (modeInput < 0 || modeInput >= Enum.GetValues(typeof(Mode)).Length)
+            {
+                Console.WriteLine("Invalid mode index");
+                goto ChooseMode;
+            }
+            mode = (Mode)modeInput;
+
+            Console.WriteLine("Please enter the code");
+            code = Functions.Get_Multi_Input() ?? throw new Exception("No code");
+
+            Console.WriteLine("Please enter the notes");
+            notes = Functions.Get_Multi_Input() ?? throw new Exception("No notes");
+
+            Program.CodeSnippets.Add(new Code_Snippet(title, language, mode, code, notes));
+            Console.WriteLine($"Code snippet {title} added");
+        }
+
+        public override void Undo(object[]? args)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Describe(object[]? args)
+        {
+            Console.WriteLine("AddSnippet Title\nYou can use this command to add a code snippet to the database");
         }
     }
 }

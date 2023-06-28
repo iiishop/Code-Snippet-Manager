@@ -1,1 +1,1 @@
-{"MaxId":0,"CodeSnippets":null}
+{"MaxId":1,"CodeSnippets":[{"Id":0,"Title":"Max","Language":0,"Mode":1,"Code":"public void Max(int i\ba, int b)\r\n{\r\nrer\bturn a?\b>b?a\"b\b\b:b;\r\n}\r\n","Notes":"This function will return the ma\b\bbigger number from a and b\r\n","Created":"2023-06-28T11:13:15.5376522+08:00","Modified":"2023-06-28T11:13:15.538636+08:00"}]}
